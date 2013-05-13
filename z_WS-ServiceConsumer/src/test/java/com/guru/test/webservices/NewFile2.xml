@@ -1,0 +1,53 @@
+<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+	<soap:Header>
+		<wsse:Security
+			xmlns:wsse="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd"
+			xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd"
+			soap:mustUnderstand="1">
+			<ds:Signature xmlns:ds="http://www.w3.org/2000/09/xmldsig#"
+				Id="SIG-3">
+				<ds:SignedInfo>
+					<ds:CanonicalizationMethod
+						Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#" />
+					<ds:SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha1" />
+					<ds:Reference URI="#TS-1">
+						<ds:Transforms>
+							<ds:Transform Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#" />
+						</ds:Transforms>
+						<ds:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
+						<ds:DigestValue>oSO1RgmLWSzGYoYWZZLWr6a+Yr4=</ds:DigestValue>
+					</ds:Reference>
+					<ds:Reference URI="#id-2">
+						<ds:Transforms>
+							<ds:Transform Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#" />
+						</ds:Transforms>
+						<ds:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
+						<ds:DigestValue>4Eq49gTZxwqquS+e8xZStxLQcG8=</ds:DigestValue>
+					</ds:Reference>
+				</ds:SignedInfo>
+				<ds:SignatureValue>EuBj+8t8vJgDT6c2zjaD40POITZlhZcK8vt4AuQBRg/eBuSeQ697TqaA+YZX0vgkgRD4sNcClfJwYVJJP5/z/UmFbu+xg3ErPA5uGcxIJbNhHv3sAlHC/ywxewIgapDzGMYCfDitO4NRY7jYlqhFyr9Hz03hZI8sRL5XRYlxo88=</ds:SignatureValue>
+				<ds:KeyInfo Id="KI-29AA495B5B77232EB513667535124192">
+					<wsse:SecurityTokenReference wsu:Id="STR-29AA495B5B77232EB513667535124193">
+						<ds:X509Data>
+							<ds:X509IssuerSerial>
+								<ds:X509IssuerName>CN=Guruprasanna Subbarayan,OU=IT,O=guru.com,L=Jacksonville,ST=FL,C=US</ds:X509IssuerName>
+								<ds:X509SerialNumber>1366729693</ds:X509SerialNumber>
+							</ds:X509IssuerSerial>
+						</ds:X509Data>
+					</wsse:SecurityTokenReference>
+				</ds:KeyInfo>
+			</ds:Signature>
+			<wsu:Timestamp wsu:Id="TS-1">
+				<wsu:Created>2013-04-23T21:45:12.412Z</wsu:Created>
+				<wsu:Expires>2013-04-23T21:50:12.412Z</wsu:Expires>
+			</wsu:Timestamp>
+		</wsse:Security>
+	</soap:Header>
+	<soap:Body
+		xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd"
+		wsu:Id="id-2">
+		<ns2:echoResponse xmlns:ns2="http://webservices.test.guru.com/">
+			<return>&gt;&gt;you said: Hi there!</return>
+		</ns2:echoResponse>
+	</soap:Body>
+</soap:Envelope>
