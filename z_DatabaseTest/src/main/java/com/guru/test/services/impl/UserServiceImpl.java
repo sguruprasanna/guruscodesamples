@@ -35,12 +35,10 @@ public class UserServiceImpl implements UserService {
 	}
 
 	public User getUserById(int userId) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	public User getUser(String username) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 

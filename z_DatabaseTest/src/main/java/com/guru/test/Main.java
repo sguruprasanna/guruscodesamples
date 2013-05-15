@@ -27,6 +27,7 @@ public class Main {
 		user.setName(username);
 		user.setUsername(StringUtils.reverse(username));
 		userService.insertUser(user);
+		
 		System.out.println(">>> Done inserting user record:"+user.toString());
 		
 		
