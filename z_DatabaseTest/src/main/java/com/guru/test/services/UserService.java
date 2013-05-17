@@ -17,4 +17,8 @@ public interface UserService {
 	User getUserById(int userId);
 	  
 	User getUser(String username);	
+	
+	public void updateAvailability(User user, boolean available);
+	
+	public void updateUserDetails(User user,boolean available);
 }

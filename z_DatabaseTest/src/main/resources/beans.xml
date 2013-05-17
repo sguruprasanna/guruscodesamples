@@ -37,6 +37,26 @@
  	
  <bean id="transactionManager" 	class="org.springframework.orm.hibernate4.HibernateTransactionManager">
  	<property name="sessionFactory" ref="sessionFactory"></property>
+ 	
+ 	
+ 	<property name="nestedTransactionAllowed" value="true"></property>
+ 	
+ 	<!--  this setting below caused the error details to get committed, but even the partially successful 
+ 	outer transaction also got committed, which is not what I wanted. I want just the error details to be committed, 
+ 	and the outer transaction to rollback. -->
+ 	<!-- 
+ 	<property name="globalRollbackOnParticipationFailure" value="false" />
+ 	 -->
  </bean>
 
+ 
+ <!--  Propagation.NESTED is not supported with HibernateTransactionManager, but only with DataSourceTransactionManager out-of-the-box -->
+ <!-- 
+ <bean id="transactionManager" 	class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+ 	<property name="dataSource" ref="dataSource"></property>
+ 	
+ </bean>
+ -->
+ 
+ 
  </beans>

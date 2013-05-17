@@ -13,4 +13,8 @@ public interface UserDao {
 	User getUserById(int userId);
 	  
 	User getUser(String username);
+	
+	void updateAvailability(User user, boolean available);
+	
+	//void updateError(String errorCode, String errorDescription);
 }
