@@ -1,15 +1,13 @@
-CREATE TABLE user
-(
-   ID int PRIMARY KEY NOT NULL,
-   USERNAME varchar(32) NOT NULL,
-   NAME varchar(64) NOT NULL
-)
-;
-CREATE UNIQUE INDEX PRIMARY ON user(ID)
-;
-CREATE UNIQUE INDEX USERNAME ON user(USERNAME)
-;
-
+CREATE TABLE `user` (
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
+  `username` varchar(32) NOT NULL,
+  `name` varchar(64) NOT NULL,
+  `age` int(11) DEFAULT NULL,
+  `dob` date DEFAULT NULL,
+  `available` tinyint(1) DEFAULT NULL,
+  PRIMARY KEY (`ID`),
+  UNIQUE KEY `username` (`username`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 
 
 CREATE TABLE error
@@ -22,3 +20,6 @@ CREATE TABLE error
 ;
 CREATE UNIQUE INDEX PRIMARY ON error(errorid)
 ;
+
+
+alter table error modify errorid int AUTO_INCREMENT
