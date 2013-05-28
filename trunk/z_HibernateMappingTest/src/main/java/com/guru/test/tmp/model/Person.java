@@ -1,4 +1,4 @@
-package com.guru.test.model;
+package com.guru.test.tmp.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -21,5 +21,8 @@ public class Person {
 	
 	@Column(name="sex", nullable=false)
 	String sex;
+
+
+	
 	
 }
