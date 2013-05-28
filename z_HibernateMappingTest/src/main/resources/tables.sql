@@ -17,6 +17,7 @@ create table Speaker(
 	FOREIGN KEY(personid) references Person(personid),
 	eventid int,
 	FOREIGN KEY(eventid) references Event(eventid)
+	
 );
 
 alter table event add speakerid int not null;
