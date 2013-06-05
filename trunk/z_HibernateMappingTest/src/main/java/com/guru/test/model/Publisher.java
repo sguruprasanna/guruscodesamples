@@ -66,6 +66,12 @@ public class Publisher {
 	public void setAddress(String address) {
 		this.address = address;
 	}
+
+	@Override
+	public String toString() {
+		return "Publisher [id=" + id + ", code=" + code + ", name=" + name
+				+ ", address=" + address + ", books=" + books + "]";
+	}
 	
 	
 	
