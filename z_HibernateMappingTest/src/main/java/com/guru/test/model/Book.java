@@ -76,6 +76,13 @@ public class Book {
 	public void setPublished(Date published) {
 		this.published = published;
 	}
+
+	@Override
+	public String toString() {
+		return "Book [id=" + id + ", title=" + title + ", price=" + price
+				+ ", author=" + author + ", published=" + published
+				+ ", publisher=" + publisher + "]";
+	}
 	
 	
 	
