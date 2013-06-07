@@ -16,7 +16,7 @@
 		        width: 300,
 		        max: 10,
 		        delay: 100,
-		        minLength: 1,
+		        minLength: 2,
 		        autoFocus: true,
 		        cacheLength: 1,
 		        scroll: true,
