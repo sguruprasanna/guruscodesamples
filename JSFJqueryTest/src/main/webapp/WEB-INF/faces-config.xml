@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<faces-config
+    xmlns="http://java.sun.com/xml/ns/javaee"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-facesconfig_1_2.xsd"
+    version="1.2">
+    
+    <managed-bean>
+	    <display-name>LocationCodeBean</display-name>
+	    <managed-bean-name>locationCodeBean</managed-bean-name>
+	    <managed-bean-class>com.guru.test.jsf.beans.LocationCodeBean</managed-bean-class>
+	    <managed-bean-scope>request</managed-bean-scope>
+    </managed-bean>
+
+</faces-config>
