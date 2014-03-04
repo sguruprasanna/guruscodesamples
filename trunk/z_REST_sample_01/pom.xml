@@ -1,0 +1,91 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>z_REST_sample_01</groupId>
+  <artifactId>z_REST_sample_01</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <name>z_REST_sample_01</name>
+  
+    <properties>       
+        <cxf.version>2.7.10</cxf.version>
+        <spring.version>4.0.2.RELEASE</spring.version>
+    </properties>  
+
+	<dependencies>
+	
+	<!--  Java EE dependency -->
+	<dependency>
+	    <groupId>javax</groupId>
+	    <artifactId>javaee-web-api</artifactId>
+	    <version>7.0</version>
+	    <scope>provided</scope>
+	</dependency>	
+	
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.10</version>
+            <scope>test</scope>
+        </dependency>
+        
+	<!--  SPRING RELATED -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-core</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-beans</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-test</artifactId>
+            <version>${spring.version}</version>
+            <scope>test</scope>
+        </dependency>
+        
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-web</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+	
+	<!--  CXF RELATED -->
+        <dependency>
+            <groupId>org.apache.cxf</groupId>
+            <artifactId>cxf-rt-frontend-jaxws</artifactId>
+            <version>${cxf.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.cxf</groupId>
+            <artifactId>cxf-rt-transports-http</artifactId>
+            <version>${cxf.version}</version>
+        </dependency>  
+        
+		<dependency>
+		  <groupId>org.apache.ws.security</groupId>
+		  <artifactId>wss4j</artifactId>
+		  <version>1.6.6</version>
+		</dependency>
+		
+		<dependency>
+		  <groupId>org.apache.cxf</groupId>
+		  <artifactId>cxf-rt-ws-security</artifactId>
+		  <version>${cxf.version}</version>
+		</dependency>		        
+        
+
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>1.6.6</version>
+        </dependency>
+  </dependencies>  
+  
+</project>
