@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ftpServiceConfig>
+	<ftpServer>
+		<hostName>ftp.nasdaqtrader.com</hostName>
+		<port>21</port>
+		<userName>anonymous</userName>
+		<password>g@gmail.com</password>
+		<dataFile>
+			<location>SymbolDirectory</location>
+			<name>nasdaqlisted.txt</name>
+		</dataFile>	
+		<dataFile>
+			<location>SymbolDirectory</location>
+			<name>otherlisted.txt</name>
+		</dataFile>	
+	</ftpServer>
+	
+	<ftpServer>
+		<hostName>ftp.nasdaqtrader1.com</hostName>
+		<port>21</port>
+		<userName>anonymous</userName>
+		<password>g@gmail.com</password>
+		<dataFile>
+			<location>SymbolDirectory</location>
+			<name>nasdaqlisted.txt</name>
+		</dataFile>	
+		<dataFile>
+			<location>SymbolDirectory</location>
+			<name>otherlisted.txt</name>
+		</dataFile>	
+	</ftpServer>	
+</ftpServiceConfig>
