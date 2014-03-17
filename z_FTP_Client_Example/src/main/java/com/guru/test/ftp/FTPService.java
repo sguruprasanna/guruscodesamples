@@ -33,10 +33,11 @@ public class FTPService {
 	}
 	
 	public void checkReturnCode() throws IOException{
+	
       if(!FTPReply.isPositiveCompletion(ftp.getReplyCode())) {
 	        ftp.disconnect();
 	        System.err.println(ftp.getReplyString());
-	        throw new IOException(ftp.getReplyString());
+	        throw new IOException();
 	  }
 	}
 	
@@ -66,11 +67,11 @@ public class FTPService {
 			
 			  
 			  System.out.println("Login complete.");
-			  System.out.println("Current directory:"+ftp.printWorkingDirectory());
+			  
 			  
 			  ftp.changeWorkingDirectory(getProperty("dataDirectory"));	      
 			  checkReturnCode();
-			
+			  System.out.println("Current directory:"+ftp.printWorkingDirectory());
 			  
 			  ftp.enterLocalPassiveMode();
 			  ftp.setFileType(FTP.ASCII_FILE_TYPE);
@@ -94,16 +95,28 @@ public class FTPService {
 	public InputStream getFile(String file) {
 		InputStream fis = null;
 		try {
-		      fis = (InputStream) ftp.retrieveFileStream(file);
-		      if(!ftp.completePendingCommand()) {
-		    	     ftp.logout();
-		    	     ftp.disconnect();
-		    	     System.err.println("File transfer failed.");
-		    	     //System.exit(1);
-		    	     throw new Exception("Error when retrieving file from ftp server");
+
+			String server = getProperty("server");
+			String username = getProperty("username");
+			String password = getProperty("password");
+			
+			//String s = getProperty("dataFile");
+			connect(server, username, password);
+				fis = (InputStream) ftp.retrieveFileStream(file);
+		      //checkReturnCode();
+		      //fis.close();
+		      if(fis == null){
+			      if(!ftp.completePendingCommand()) {
+			    	     ftp.logout();
+			    	     ftp.disconnect();
+			    	     System.err.println("File transfer failed.");
+			    	     //System.exit(1);
+			    	     throw new Exception("Error when retrieving file from ftp server");
+			      }  
 		      }
+			logout();
 		      
-		      checkReturnCode();  
+		      //checkReturnCode();  
 		} catch(Exception e){
 			e.printStackTrace();
 			
@@ -143,23 +156,29 @@ public class FTPService {
 		List<String> symbols = new ArrayList<String>();
 		String delims = "[|]+";
 		
-		String server = getProperty("server");
-		String username = getProperty("username");
-		String password = getProperty("password");
+		int symbolsCount=1;
 		
-		connect(server, username, password);
-		
-		InputStream is = getFile(getProperty("dataFile"));
-		Scanner sc = new Scanner( is );
-		  
-		while(sc.hasNextLine()){
-		    String input = sc.nextLine();
-		    String[] dataElements = input.split(delims);
-		    symbols.add(dataElements[0]);
-		    //System.out.println(input);
+		String[] dataFiles = getProperty("dataFile").split(",");
+		for(String s : dataFiles){
+			
+			InputStream is = getFile(s);
+			/*Scanner sc = new Scanner( is );
+			while(sc.hasNextLine()){
+			    String input = sc.nextLine();
+			    String[] dataElements = input.split(delims);
+			    symbols.add(dataElements[0]);
+			    symbolsCount++;
+			    //System.out.println(input);
+			}
+			sc.close();
+			
+			*/
+			
+			System.out.println(">>>File:"+s+" contained "+symbolsCount+" symbols.");
+			symbolsCount=1;
+			
+			is.close();
 		}
-		sc.close();
-		logout();
 		return symbols;
 	}
 
@@ -167,9 +186,12 @@ public class FTPService {
 		FTPService ftpService = new FTPService();
 		try {
 			List<String> symbols = ftpService.getAllSymbols();
-			for(String s : symbols){
+/*			for(String s : symbols){
 				System.out.println(s);
-			}
+			}*/
+			
+			System.out.println("Total symbols count:"+symbols.size());
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
