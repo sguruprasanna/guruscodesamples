@@ -10,6 +10,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.StringTokenizer;
 
@@ -101,9 +102,9 @@ public class PriceVolumeDemo2 extends ApplicationFrame
                 xyplot.setRenderer(1, xybarrenderer);
                 
                 
-                org.jfree.data.xy.XYDataset maDataSet = MovingAverage.createMovingAverage(xydataset, "-MAVG", 50, 0L);
+/*                org.jfree.data.xy.XYDataset maDataSet = MovingAverage.createMovingAverage(xydataset, "-MAVG", 50, 0L);
                 xyplot.setDataset(2, maDataSet);
-                xyplot.setRenderer(2, new StandardXYItemRenderer());
+                xyplot.setRenderer(2, new StandardXYItemRenderer());*/
                 
                 
                 
@@ -197,19 +198,6 @@ public class PriceVolumeDemo2 extends ApplicationFrame
                 return new ChartPanel(jfreechart);
         }
 
-        public static void main(String args[])
-        {
-                PriceVolumeDemo2 pricevolumedemo1 = new PriceVolumeDemo2("Price Volume Chart Demo");
-                pricevolumedemo1.pack();
-                RefineryUtilities.centerFrameOnScreen(pricevolumedemo1);
-                pricevolumedemo1.setVisible(true);
-        	
-        	
-        	//calculateSMA(getDataSet("IBM"),50);
-        }
-        
-        
-        
         private static DefaultOHLCDataset getDataSet(String stockSymbol) {
             //This is the dataset we are going to create
             DefaultOHLCDataset result;
@@ -305,19 +293,86 @@ public class PriceVolumeDemo2 extends ApplicationFrame
         
         
         public static void calculateSMA(DefaultOHLCDataset dataSet, int period){
-        	TimeSeries result = new TimeSeries("SMA "+period);
         	
-        	double average=0;
-        	int kMINUSn;
+        	LinkedList<Stock> stockList = new LinkedList<Stock>();
+        	for(int i=0;i<dataSet.getItemCount(0);i++){
+        		Stock s = new Stock();
+        		s.setClose(dataSet.getCloseValue(i, i));
+        		s.setLow(dataSet.getLowValue(i, i));
+        		s.setHigh(dataSet.getHighValue(i, i));
+        		s.setOpen(dataSet.getOpenValue(i, i));
+        		s.setDate(dataSet.getXDate(i, i));
+        		stockList.add(s);
+        	}
+        	MovingAverage avg = new MovingAverage();
+        	avg.calculate(stockList, 10, 0);
         	
-        	for(int i=1;i<dataSet.getItemCount(0);i++){
+        	int index = 0;
+        	for(double a : avg.ma){
         		
-        		kMINUSn = Math.abs(i-period);
-        		average = (dataSet.getCloseValue(i, i) - dataSet.getCloseValue(kMINUSn, kMINUSn))/50;
-        		System.out.println("average:"+average);
-            }
+        		System.out.println("SMA on ["+dataSet.getXDate(index, index)+"] : "+a);
+        		index++;
+        	}
+        	
         }
         
         
+        public static void calculateEMA(DefaultOHLCDataset dataSet, int period){
+        	
+        	LinkedList<Stock> stockList = new LinkedList<Stock>();
+        	for(int i=0;i<dataSet.getItemCount(0);i++){
+        		Stock s = new Stock();
+        		s.setClose(dataSet.getCloseValue(i, i));
+        		s.setLow(dataSet.getLowValue(i, i));
+        		s.setHigh(dataSet.getHighValue(i, i));
+        		s.setOpen(dataSet.getOpenValue(i, i));
+        		s.setDate(dataSet.getXDate(i, i));
+        		stockList.add(s);
+        	}
+        	MovingAverage avg = new MovingAverage();
+        	avg.calculate(stockList, 10, 1);
+        	
+        	int index = 0;
+        	for(double a : avg.ma){
+        		
+        		System.out.println("SMA on ["+dataSet.getXDate(index, index)+"] : "+a);
+        		index++;
+        	}
+        	
+        }       
         
+        public static void calculateBB(DefaultOHLCDataset dataSet, int sma, int sdev){
+        	
+        	LinkedList<Stock> stockList = new LinkedList<Stock>();
+        	for(int i=0;i<dataSet.getItemCount(0);i++){
+        		Stock s = new Stock();
+        		s.setClose(dataSet.getCloseValue(i, i));
+        		s.setLow(dataSet.getLowValue(i, i));
+        		s.setHigh(dataSet.getHighValue(i, i));
+        		s.setOpen(dataSet.getOpenValue(i, i));
+        		s.setDate(dataSet.getXDate(i, i));
+        		stockList.add(s);
+        	}
+        	
+        	Bollinger bb = new Bollinger(stockList, sma, sdev);
+        	int length = bb.upper.length;
+        	
+        	for(int i=0; i<length; i++){
+        		System.out.println("BB values on ["+dataSet.getXDate(i, i)+"]  - {U:"+bb.upper[i]+",M:"+bb.middle[i]+",L:"+bb.lower[i]+"}");
+        	}
+        	
+        }   
+        
+        
+        public static void main(String args[])
+        {
+/*              PriceVolumeDemo2 pricevolumedemo1 = new PriceVolumeDemo2("Price Volume Chart Demo");
+                pricevolumedemo1.pack();
+                RefineryUtilities.centerFrameOnScreen(pricevolumedemo1);
+                pricevolumedemo1.setVisible(true);*/
+        	
+        	
+        		//calculateSMA(getDataSet("IBM"),50);
+        		calculateBB(getDataSet("IBM"),20,2);
+        }        
 }
