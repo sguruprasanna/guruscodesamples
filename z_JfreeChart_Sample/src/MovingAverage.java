@@ -7,6 +7,34 @@ public class MovingAverage { //extends JDialog {
     MovingAverage() {
     }
 
+    //TODO - write a method to get close price for a stock given from&to dates.
+    // it should return a list/linkedlist that can be passed to this method.
+     
+    /**
+     * Calculates moving average just for one or more closing prices as they get added to the stocklist
+     * 
+     * @param stockList - updated stock list with one or more newly added closing price
+     * @param days  - SMA/EMA days
+     * @param type - 0 for SMA, 1 for EMA
+     * @param ma_value - running sum of closing price from the last SMA calculation
+     * @param index - index of the closing price in the list for which SMA was last computed.
+     */
+    public void calculate(LinkedList stockList, int days, int type, int ma_value, int index) { 
+    	// TODO - the linkedlist parameter should get be like LinkedList<T> stockList
+    	// where T can be StockDaily, or StockWeekly
+    	int size = stockList.size();
+    	while(index < size) {
+		    Stock stock = (Stock)stockList.get(index);
+		    ma_value += stock.getClose();
+		    stock = (Stock)stockList.get(index-days);
+		    ma_value -= stock.getClose();
+		    ma[index++] = ma_value / days; // TODO - instead update the sma attribute of the stock itself.
+		}
+    	
+    }
+    
+    
+    
     public void calculate(LinkedList stockList, int days, int type) {
 	int size = stockList.size();
 	ma = new double[size];

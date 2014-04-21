@@ -4,6 +4,8 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.URL;
 import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
@@ -55,8 +57,10 @@ public class PriceVolumeDemo2 extends ApplicationFrame
 
         private static JFreeChart createChart()
         {
+        	
+        		String stockSymbol = "RVBD";
                 //XYDataset xydataset = createPriceDataset();
-        		XYDataset xydataset = getDataSet("IBM");
+        		XYDataset xydataset = getDataSet(stockSymbol);
                
                 
                 DateAxis    domainAxis       = new DateAxis("Date");
@@ -90,11 +94,11 @@ public class PriceVolumeDemo2 extends ApplicationFrame
                 xyitemrenderer.setBaseToolTipGenerator(new StandardXYToolTipGenerator("{0}: ({1}, {2})", new SimpleDateFormat("d-MMM-yyyy"), new DecimalFormat("0.00")));
                 
                 
-                
+          
                 NumberAxis numberaxis1 = new NumberAxis("Volume");
                 numberaxis1.setUpperMargin(2.0D);
                 xyplot.setRangeAxis(1, numberaxis1);
-                xyplot.setDataset(1, createVolumeDataset());
+                xyplot.setDataset(1, createVolumeDataset(stockSymbol));
                 xyplot.setRangeAxis(1, numberaxis1);
                 xyplot.mapDatasetToRangeAxis(1, 1);
                 XYBarRenderer xybarrenderer = new XYBarRenderer(0.20000000000000001D);
@@ -152,17 +156,41 @@ public class PriceVolumeDemo2 extends ApplicationFrame
                 return new TimeSeriesCollection(timeseries);
         }
 
-        private static IntervalXYDataset createVolumeDataset()
+        private static IntervalXYDataset createVolumeDataset(String stockSymbol)
         {
                 TimeSeries timeseries = new TimeSeries("Volume", org.jfree.data.time.Day.class);
                 File f;
                 BufferedReader in = null;
-                String inputLine;
-                DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+                ////String inputLine;
+                ////DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 
                 try{
-        			f = new File("data1.csv");
-        			in = new BufferedReader(new FileReader(f));
+                	
+                	/*
+                	 * FROM date
+                	 * a=month minus 1.
+                	 * b=number of the day
+                	 * c=the year
+                	 * 
+                	 * TO date
+                	 * d=Month minus 1.
+                	 * e=number of the day
+                	 * f=the year
+                	 * 
+                	 * g=d for daily, w for weekly
+                	 */
+                	
+                	String strUrl = "http://ichart.yahoo.com/table.csv?s=" + stockSymbol+ "&a=6&b=1&c=2010&d=11&e=1&f=2010&g=d&ignore=.csv";
+                    URL url = new URL(strUrl);
+                    in = new BufferedReader(
+                        new InputStreamReader(url.openStream()));
+                    DateFormat df = new SimpleDateFormat("y-M-d");
+                    String inputLine;
+                    in.readLine();
+                	
+                	
+        			////f = new File("data1.csv");
+        			////in = new BufferedReader(new FileReader(f));
         			
         			//ignore first line
         			inputLine = in.readLine();
@@ -218,19 +246,19 @@ public class PriceVolumeDemo2 extends ApplicationFrame
             
             File f;
             BufferedReader in = null;
-            String inputLine;
-            DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+            ////String inputLine;
+            ////DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
             try {
-    /*        	String strUrl = "http://ichart.yahoo.com/table.csv?s=" + stockSymbol+ "&a=4&b=1&c=2013&d=6&e=1&f=2013&g=d&ignore=.csv";
+            	String strUrl = "http://ichart.yahoo.com/table.csv?s=" + stockSymbol+ "&a=6&b=1&c=2010&d=11&e=1&f=2010&g=d&ignore=.csv";
                 URL url = new URL(strUrl);
-                BufferedReader in = new BufferedReader(
+                in = new BufferedReader(
                     new InputStreamReader(url.openStream()));
                 DateFormat df = new SimpleDateFormat("y-M-d");
                 String inputLine;
                 in.readLine();
-    */            
-    			f = new File("data1.csv");
-    			in = new BufferedReader(new FileReader(f));
+                
+    			////f = new File("data1.csv");
+    			////in = new BufferedReader(new FileReader(f));
     			
     			//ignore first line
     			inputLine = in.readLine();
@@ -259,7 +287,12 @@ public class PriceVolumeDemo2 extends ApplicationFrame
             }
             //Data from Yahoo is from newest to oldest. Reverse so it is oldest to newest
             Collections.reverse(dataItems);
-            //Convert the list into an array
+/*            
+            for(OHLCDataItem item : dataItems){
+            	System.out.println(item.getDate()+","+item.getClose());
+            }
+            System.out.println("************************************************************************************");
+*/            //Convert the list into an array
             OHLCDataItem[] data = dataItems.toArray(new OHLCDataItem[dataItems.size()]);
             return data;
         }        
@@ -305,7 +338,7 @@ public class PriceVolumeDemo2 extends ApplicationFrame
         		stockList.add(s);
         	}
         	MovingAverage avg = new MovingAverage();
-        	avg.calculate(stockList, 10, 0);
+        	avg.calculate(stockList, period, 0);
         	
         	int index = 0;
         	for(double a : avg.ma){
@@ -330,7 +363,7 @@ public class PriceVolumeDemo2 extends ApplicationFrame
         		stockList.add(s);
         	}
         	MovingAverage avg = new MovingAverage();
-        	avg.calculate(stockList, 10, 1);
+        	avg.calculate(stockList, period, 1);
         	
         	int index = 0;
         	for(double a : avg.ma){
@@ -366,13 +399,13 @@ public class PriceVolumeDemo2 extends ApplicationFrame
         
         public static void main(String args[])
         {
-/*              PriceVolumeDemo2 pricevolumedemo1 = new PriceVolumeDemo2("Price Volume Chart Demo");
+        		PriceVolumeDemo2 pricevolumedemo1 = new PriceVolumeDemo2("Price Volume Chart Demo");
                 pricevolumedemo1.pack();
                 RefineryUtilities.centerFrameOnScreen(pricevolumedemo1);
-                pricevolumedemo1.setVisible(true);*/
+                pricevolumedemo1.setVisible(true);
         	
         	
         		//calculateSMA(getDataSet("IBM"),50);
-        		calculateBB(getDataSet("IBM"),20,2);
+        		//calculateBB(getDataSet("IBM"),20,2);
         }        
 }
